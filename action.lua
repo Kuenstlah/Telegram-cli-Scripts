@@ -29,7 +29,8 @@ function on_msg_receive (msg)
 	else
 		os.execute (string.format("/home/pi/tg/scripts/sendmsg.sh \"%s\" \"Sorry, I don't know you. Please contact my boss!\" &",msg.from.print_name))
 	end
-os.execute (string.format("echo '%s;%s' >> /var/log/telegram.lua.log",msg.from.print_name,msg.text))
+time = os.date("*t")
+os.execute (string.format("echo '%s:%s:%s;%s;%s' >> /var/log/telegram.lua.log",time.hour,time.min,time.sec,msg.from.print_name,msg.text))
 
 end
 
