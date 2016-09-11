@@ -1,6 +1,6 @@
 -- Users must be added manually.
 -- Lower number = higher permissions
-local users = { "1_Kuenstlah", "1_Phil", "1_Pascal", "2_Silvan", "2_Rrobi", "2_Sascha", "2_Dom", "2_Kat" }
+local users = { "1_Kuenstlah", "1_Phil", "1_Pascal", "2_Silvan", "2_Rrobi", "2_Sascha", "2_Dom", "2_Kat", "2_Chris" }
 
 function has_value (tab, val)
     for index, value in ipairs (tab) do
