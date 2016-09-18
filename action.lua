@@ -1,6 +1,6 @@
 -- Users must be added manually.
 -- Lower number = higher permissions
-local users = { "1_Kuenstlah", "1_Phil", "1_Pascal", "2_Silvan", "2_Rrobi", "2_Sascha", "2_Dom", "2_Kat", "2_Chris", "2_Chris2" }
+local users = {"1_Kuenstlah","1_Phil","1_Pascal","2_Silvan","2_Rrobi","2_Sascha","2_Dom","2_Kat","2_Chris","2_Chris2","2_Micha","2_Nik"}
 
 function has_value (tab, val)
     for index, value in ipairs (tab) do
@@ -25,6 +25,11 @@ function on_msg_receive (msg)
 	end
 	-----------------------
 	if (has_value (users, msg.from.print_name)) then
+		--if ( msg.from.print_name == "1_Kuenstlah") then
+		--	os.execute (string.format("/home/pi/tg/scripts/msg-parser.sh \"%s\" \"%s\" &", msg.text,msg.from.print_name))
+		--else
+		--	os.execute (string.format("/home/pi/tg/scripts/sendmsg.sh \"%s\" \"Sorry, currently under maintenance!\" &",msg.from.print_name))
+		--fi
 		os.execute (string.format("/home/pi/tg/scripts/msg-parser.sh \"%s\" \"%s\" &", msg.text,msg.from.print_name))
 	else
 		os.execute (string.format("/home/pi/tg/scripts/sendmsg.sh \"%s\" \"Sorry, I don't know you. Please contact my boss!\" &",msg.from.print_name))
