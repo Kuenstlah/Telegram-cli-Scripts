@@ -2,7 +2,10 @@
 
 # This script downloads the latest file of a specific FTP diretory and sends it to a TG contact
 
-cfg_path=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+# Path to TG scripts folder
+cfg_path=/home/pi/tg/scripts/
+cd $cfg_path
 . $cfg_path/latest_ftp_file.config
 
 TG_USER=$1
@@ -26,11 +29,11 @@ ftp -n $HOST <<fin
 	quote USER $USER
 	quote PASS $PASSWD
 	cd $DIRECTORY
-	get $FILE
+	get $FILE /tmp/$FILE
 	quit
 fin
 
 $cfg_path/sendmsg.sh $TG_USER "Image from $DATE"
-$cfg_path/sendfile.sh $TG_USER "$cfg_path/$FILE"
+$cfg_path/sendfile.sh $TG_USER "/tmp/$FILE"
 
-[ -f $FILE ] && rm -f $FILE
+[ -f $FILE ] && rm -f /tmp/$FILE
