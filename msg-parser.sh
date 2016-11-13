@@ -36,24 +36,31 @@ case $msg in
         s|ps|pgospawn)
 		echo "msg $empf "### The classical spawn does not exist anymore! Please use one of the following commands:"" | $cmd
 		echo "msg $empf "### [sh] - Pokespawns in Hilden"" | $cmd
-                echo "msg $empf "### [sa] - Pokespawns in America"" | $cmd
                 echo "msg $empf "### [sg] - Pokespawns in Garath"" | $cmd
         ;;
         sh|psh|pgospawnh)
                 echo "msg $empf "### Searching in Hilden, please wait..."" | $cmd
-                `/home/pi/pokemon/checkdb.pl spawn_hilden $empf &`
-                echo "msg $empf "### Done. Good luck!"" | $cmd
-        ;;
-        sa|psa|pgospawna)
-                echo "msg $empf "### Searching in America, please wait..."" | $cmd
-                `/home/pi/pokemon/checkdb.pl spawn_america $empf &`
+                `/home/pi/pokemon/pogo/checkdb.pl spawn_hilden $empf`
                 echo "msg $empf "### Done. Good luck!"" | $cmd
         ;;
         sg|psg|pgospawng)
                 echo "msg $empf "### Searching in Garath, please wait..."" | $cmd
-                `/home/pi/pokemon/checkdb.pl spawn_garath $empf &`
+                `/home/pi/pokemon/pogo/checkdb.pl spawn_garath $empf &`
                 echo "msg $empf "### Done. Good luck!"" | $cmd
         ;;
+        sr|psr|pgospawnr)
+                echo "msg $empf "### Searching in Ratingen, please wait..."" | $cmd
+                `/home/pi/pokemon/pogo/checkdb.pl spawn_ratingen $empf &`
+                echo "msg $empf "### Done. Good luck!"" | $cmd
+        ;;
+	stats)
+		if [[ $level == 1 ]];then
+			echo "msg $empf "### Usage of commands:"" | $cmd
+			echo "msg $empf "`/home/pi/pokemon/stats.sh`"" | $cmd
+		else
+                        echo "msg $empf "Sorry, your accesslevel \($level\) is too low."" | $cmd
+                fi
+	;;
  	map|map*)
 		if [[ $level == 1 ]];then
 				location=`echo $msg |awk -F ' ' {'print $2'}`
@@ -73,9 +80,10 @@ case $msg in
 		if [[ $level == 1 ]];then
 			echo "msg $empf "Give me a second to spy.."" | $cmd
 			# Trigger a snapshot via motion from local webcam
-			curl -s -o /dev/null http://localhost:8080/0/action/snapshot
-			sleep 1
-			echo "send_photo $empf /home/pi/webcam/lastsnap.jpg" | $cmd
+			#curl -s -o /dev/null http://localhost:8080/0/action/snapshot
+			#sleep 1
+			#echo "send_photo $empf /home/pi/webcam/lastsnap.jpg" | $cmd
+			/home/pi/tg/scripts/latest_ftp_file.sh $empf
 		else
 			echo "msg $empf "Sorry, your accesslevel \($level\) is too low."" | $cmd
 		fi
@@ -102,6 +110,6 @@ case $msg in
 	;;
 esac
 
-echo "`date` ; <$2> <$1>" >> /var/log/telegram.lua.log
+echo "`date` ; <$2> <$msg>" >> /var/log/telegram.lua.log
 
 exit 0
