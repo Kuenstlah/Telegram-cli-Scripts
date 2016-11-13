@@ -11,3 +11,9 @@ fi
 
 #echo /home/pi/tg/bin/telegram-cli -k /home/pi/tg/tg-server.pub -W -e \"add_contact $1 $2 $3\"
 echo "add_contact $1 "$2" $3" | nc localhost 54621
+
+if [[ $? == 0 ]];then
+	echo "Success"
+else
+	echo "Error <$?>"
+fi
