@@ -1,0 +1,8 @@
+#!/bin/sh
+
+HOST='192.168.0.1'
+USER=''
+PASSWD=''
+DIRECTORY=''
+TMP_FILE=/tmp/directory_listing_ftp
+
