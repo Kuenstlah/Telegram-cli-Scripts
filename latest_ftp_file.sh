@@ -13,19 +13,21 @@ TG_USER=$1
 [ -f $TMP_FILE ] && rm -f $TMP_FILE
 
 # Get file from directory; sorted by modification date
-ftp -n $HOST > $TMP_FILE <<fin 
-quote USER $USER
-quote PASS $PASSWD
-cd $DIRECTORY
-ls -1t
-quit
-fin
+#ftp -n $HOST > $TMP_FILE <<fin 
+#quote USER $USER
+#quote PASS $PASSWD
+#cd $DIRECTORY
+#ls -1t
+#quit
+#fin
 
-FILE=`cat $TMP_FILE|head -n1`
+#FILE=`cat $TMP_FILE|head -n1`
+FILE="A16111722490512.jpg"
+DIRECTORY="Kamera/20161117/images"
 [ -f $TMP_FILE ] && rm -f $TMP_FILE
 
 # Download file
-ftp -n $HOST <<fin 
+ftp -n $HOST <<fin
 	quote USER $USER
 	quote PASS $PASSWD
 	cd $DIRECTORY
@@ -33,7 +35,11 @@ ftp -n $HOST <<fin
 	quit
 fin
 
-$cfg_path/sendmsg.sh $TG_USER "Image from $DATE"
-$cfg_path/sendfile.sh $TG_USER "/tmp/$FILE"
-
-[ -f $FILE ] && rm -f /tmp/$FILE
+if [ -f "/tmp/$FILE" ];then
+	$cfg_path/sendmsg.sh $TG_USER "Image from $DATE"
+	$cfg_path/sendphoto.sh $TG_USER "/tmp/$FILE"
+	#rm -f /tmp/$FILE
+else
+	echo "Error - Can't get image"
+	#$cfg_path/sendmsg.sh $TG_USER "Error - Can't get image"
+fi
